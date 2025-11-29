@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Your Cart</title>
+<style>
+  /* ===== BODY STYLING ===== */
+  body {
+    background:#0d0d0f; /* Dark background */
+    color:white; /* Light text for contrast */
+    font-family:'Arial', sans-serif; /* Simple readable font */
+    padding:40px; /* Space around content */
+  }
+
+  /* ===== CART BOX ===== */
+  .box {
+    background:#1a1a1d; /* Darker container for cart */
+    padding:20px;
+    border-radius:10px; /* Rounded corners */
+    max-width:480px; /* Limit width */
+    margin:auto; /* Center horizontally */
+  }
+
+  /* ===== INPUT AND TEXTAREA STYLING ===== */
+  input, textarea {
+    width:100%; /* Fill the box */
+    padding:10px;
+    background:#111; /* Dark input background */
+    border:1px solid #333; /* Border color */
+    border-radius:8px;
+    margin-top:10px;
+    color:white; /* Text color */
+  }
+
+  /* ===== BUTTON STYLING ===== */
+  button {
+    padding:12px 20px;
+    background:#e8c57a; /* Gold button */
+    color:#000; /* Black text */
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:15px;
+    font-weight:bold;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PAGE TITLE ===== -->
+<h1 style="text-align:center;color:#e8c57a;">Your Cart</h1>
+
+<!-- ===== CART AND ORDER FORM ===== -->
+<div class="box">
+    <h3>Products:</h3>
+    <!-- This ul will display all cart items -->
+    <ul id="cartList"></ul>
+    <!-- Display total price -->
+    <div id="totalPrice" style="margin-top:10px;font-weight:bold;"></div>
+
+    <h3>Enter Delivery Details</h3>
+    <!-- User input fields -->
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <textarea id="address" placeholder="Full Address"></textarea>
+
+    <!-- Submit button -->
+    <button onclick="submitOrder()">Submit Order</button>
+</div>
+
+<script>
+  // ===== GET CART ITEMS =====
+  // Retrieve the cart from localStorage (stored in index.html)
+  let cartItems = JSON.parse(localStorage.getItem("scentCart")) || [];
+
+  // Get references to HTML elements
+  const list = document.getElementById("cartList");
+  const totalDiv = document.getElementById("totalPrice");
+
+  // ===== FUNCTION TO DISPLAY CART =====
+  function renderCart() {
+    list.innerHTML = ""; // Clear current list
+
+    if (cartItems.length === 0) {
+      // If cart is empty
+      list.innerHTML = "<p>No items in cart.</p>";
+      totalDiv.innerHTML = "";
+      return;
+    }
+
+    let total = 0; // Initialize total price
+
+    // Loop through cart items and display each
+    cartItems.forEach(item => {
+      let li = document.createElement("li"); // Create a list item
+      li.innerText = item.name + " - $" + item.price + " × " + item.qty; // Show name, price, quantity
+      list.appendChild(li); // Add to ul
+      total += item.price * item.qty; // Add to total
+    });
+
+    // Display total price
+    totalDiv.innerText = "Total: $" + total;
+  }
+
+  // ===== FUNCTION TO SUBMIT ORDER =====
+  function submitOrder() {
+    // Get values from input fields
+    let name = document.getElementById("name").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let address = document.getElementById("address").value.trim();
+
+    // Check if any field is empty
+    if (name === "" || phone === "" || address === "") {
+      alert("All fields must be filled before submitting!");
+      return; // Stop execution
+    }
+
+    // Check if cart is empty
+    if(cartItems.length === 0){
+      alert("Your cart is empty!");
+      return;
+    }
+
+    // Display confirmation message
+    alert("Thank you, " + name + "! Your order has been placed successfully!\nTotal: $" + cartItems.reduce((sum, i)=>sum+i.price*i.qty,0));
+
+    // Clear cart from localStorage
+    localStorage.removeItem("scentCart");
+    cartItems = []; // Clear local array
+    renderCart(); // Update cart display
+
+    // Clear input fields
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("address").value = "";
+  }
+
+  // ===== INITIALIZE CART DISPLAY =====
+  renderCart(); // Call renderCart to show items when page loads
+</script>
+
+</body>
+</html>

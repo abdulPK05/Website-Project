@@ -1,10 +1,280 @@
 <!DOCTYPE html>
-<htm>
-    <head>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scent Bazar</title>
+<style>
+  /* ===== BODY & FONT STYLING ===== */
+  body {
+    margin:0; /* Remove default margin */
+    font-family: Arial, sans-serif; /* Simple readable font */
+    background: #0d0d0f; /* Dark background for aesthetic look */
+    color: #f2f2f2; /* Light text color for contrast */
+  }
 
-    </head>
-    <body>
+  /* ===== HEADER ===== */
+  header {
+    text-align:center; /* Center the text */
+    padding:50px 20px; /* Space inside header */
+    background: #111; /* Dark header background */
+  }
+  header h1 {
+    color: #e8c57a; /* Gold color for brand name */
+    margin:0; /* Remove default margin */
+  }
+  header p {
+    color: #d4c6a8; /* Light gold for subtitle */
+    margin-top:5px;
+  }
 
-        
-    </body>
-</htm>
+  /* ===== NAVIGATION BAR ===== */
+  nav {
+    display:flex; /* Use flexbox to align links horizontally */
+    justify-content:center; /* Center the links */
+    gap:20px; /* Space between links */
+    padding:10px 0;
+    background:#131315; /* Slightly lighter dark background */
+  }
+  nav a {
+    color:#e8c57a; /* Link color */
+    text-decoration:none; /* Remove underline */
+    font-weight:bold;
+  }
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    text-align:center;
+    padding:60px 20px;
+    background-image:url('https://images.unsplash.com/photo-1600180758895-7f6c0d76f1d0?auto=format&fit=crop&w=1400&q=60'); /* Perfume-themed image */
+    background-size:cover; /* Cover the entire section */
+  }
+  .hero h2 {
+    color:#e8c57a; /* Gold title */
+  }
+
+  /* ===== SECTION TITLES ===== */
+  .section-title {
+    text-align:center;
+    color:#e8c57a;
+    margin:30px 0 10px 0;
+  }
+
+  /* ===== PRODUCT GRID ===== */
+  .products {
+    display:grid; /* Grid layout for products */
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); /* Responsive columns */
+    gap:20px; /* Space between products */
+    padding:0 20px 40px 20px;
+  }
+
+  /* ===== INDIVIDUAL PRODUCT CARD ===== */
+  .card {
+    background:#1a1a1d; /* Dark card background */
+    padding:15px;
+    border-radius:10px; /* Rounded corners */
+    text-align:center;
+    border:1px solid #2e2e33; /* Subtle border */
+  }
+  .card img {
+    width:100%;
+    height:150px;
+    object-fit:cover; /* Image fills card nicely */
+    border-radius:8px;
+  }
+  .card h3 {
+    margin:8px 0 5px 0;
+  }
+  .card p {
+    font-size:14px;
+    color:#cfc3a2; /* Soft description color */
+  }
+  .price {
+    font-weight:bold;
+    margin-top:5px;
+  }
+  button {
+    margin-top:8px;
+    padding:8px 12px;
+    background:#e8c57a;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+  }
+  button:hover {
+    background:#fff; /* Highlight button on hover */
+  }
+
+  /* ===== FEEDBACK TEXTAREA ===== */
+  #feedback textarea {
+    width:90%;
+    height:100px;
+    padding:8px;
+    border-radius:8px;
+    background:#111;
+    color:#fff;
+    border:1px solid #333;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align:center;
+    padding:15px;
+    background:#131315;
+    margin-top:20px;
+    color:#a9a9a9;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <h1>Scent Bazar</h1>
+  <p>Luxury perfumes for him & her</p>
+</header>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <a href="#for-him">For Him</a>
+  <a href="#for-her">For Her</a>
+  <a href="cart.html">Cart</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero">
+  <h2>Find your signature fragrance</h2>
+</section>
+
+<!-- ===== PRODUCTS FOR HIM ===== -->
+<h3 class="section-title" id="for-him">FOR HIM</h3>
+<div class="products" id="products-him"></div>
+
+<!-- ===== PRODUCTS FOR HER ===== -->
+<h3 class="section-title" id="for-her">FOR HER</h3>
+<div class="products" id="products-her"></div>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section id="contact">
+  <h3 class="section-title">Contact</h3>
+  <p>Email: your-email@example.com</p>
+  <p>Phone: +92 300 0000000</p>
+</section>
+
+<!-- ===== FEEDBACK SECTION ===== -->
+<section id="feedback">
+  <h3 class="section-title">Feedback</h3>
+  <textarea id="feedbackInput" placeholder="Write your feedback..."></textarea>
+  <br><br>
+  <button onclick="submitFeedback()">Submit Feedback</button>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>© 2025 Scent Bazar</footer>
+
+<script>
+/* ===== PRODUCT DATA ===== */
+/* Each product has: id, name, price, gender, description, image URL */
+var products = [
+  {id:'midnight-noir',name:'Midnight Noir',price:36,gender:'him',desc:'Strong • Bold',img:'https://images.unsplash.com/photo-1621354950526-97829e2c9882?auto=format&fit=crop&w=800&q=60'},
+  {id:'royal-oud',name:'Royal Oud',price:48,gender:'him',desc:'Premium • Luxury',img:'https://images.unsplash.com/photo-1611930022073-b7a4d87565a9?auto=format&fit=crop&w=800&q=60'},
+  {id:'dark-leather',name:'Dark Leather',price:29,gender:'him',desc:'Woody • Intense',img:'https://images.unsplash.com/photo-1600181957795-9a4f50b12108?auto=format&fit=crop&w=800&q=60'},
+  {id:'fresh-bloom',name:'Fresh Bloom',price:34,gender:'her',desc:'Floral • Soft',img:'https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=800&q=60'},
+  {id:'velvet-rose',name:'Velvet Rose',price:42,gender:'her',desc:'Romantic • Elegant',img:'https://images.unsplash.com/photo-1523292562811-0a112d4fd8a7?auto=format&fit=crop&w=800&q=60'},
+  {id:'golden-mist',name:'Golden Mist',price:30,gender:'her',desc:'Warm • Sweet',img:'https://images.unsplash.com/photo-1541534401786-3d3aac2b1d51?auto=format&fit=crop&w=800&q=60'}
+];
+
+/* ===== FUNCTION TO DISPLAY PRODUCTS ===== */
+function renderProducts() {
+  var himDiv = document.getElementById('products-him'); // container for "for him"
+  var herDiv = document.getElementById('products-her'); // container for "for her"
+
+  for(var i=0;i<products.length;i++){
+    var p = products[i];
+
+    // Create a card div for each product
+    var card = document.createElement('div');
+    card.className = 'card';
+
+    // Set HTML content of card
+    card.innerHTML = '<img src="'+p.img+'" alt="'+p.name+'">' +
+                     '<h3>'+p.name+'</h3>' +
+                     '<p>'+p.desc+'</p>' +
+                     '<div class="price">$'+p.price+'</div>' +
+                     '<button onclick="addToCart(\''+p.id+'\')">Add to Cart</button>';
+
+    // Append card to respective gender section
+    if(p.gender=='him') himDiv.appendChild(card);
+    else herDiv.appendChild(card);
+  }
+}
+
+/* ===== CART FUNCTIONS ===== */
+function getCart() {
+  // Retrieve cart from localStorage
+  var cart = localStorage.getItem('scentCart');
+  if(cart) return JSON.parse(cart); // Convert JSON string to array
+  return []; // If empty, return empty array
+}
+
+function saveCart(cart) {
+  // Save cart to localStorage
+  localStorage.setItem('scentCart', JSON.stringify(cart));
+}
+
+function addToCart(id){
+  var cart = getCart(); // Get current cart
+  var found = false;
+
+  // Check if item already in cart
+  for(var i=0;i<cart.length;i++){
+    if(cart[i].id==id){
+      cart[i].qty += 1; // Increase quantity
+      found = true;
+      break;
+    }
+  }
+
+  // If item not in cart, add new
+  if(!found){
+    for(var j=0;j<products.length;j++){
+      if(products[j].id==id){
+        var item = {id:products[j].id,name:products[j].name,price:products[j].price,qty:1};
+        cart.push(item);
+        break;
+      }
+    }
+  }
+
+  saveCart(cart); // Save updated cart
+  alert('Product added to cart!');
+}
+
+/* ===== FEEDBACK FUNCTION ===== */
+function submitFeedback(){
+  var feedback = document.getElementById('feedbackInput').value;
+
+  if(feedback.trim()==''){ // Check if empty
+    alert('Please write your feedback.');
+    return;
+  }
+
+  // Get existing feedback from localStorage
+  var allFeedback = localStorage.getItem('feedbacks');
+  if(!allFeedback) allFeedback = '[]';
+
+  var arr = JSON.parse(allFeedback); // Convert to array
+  arr.push(feedback); // Add new feedback
+  localStorage.setItem('feedbacks', JSON.stringify(arr)); // Save updated feedback
+
+  alert('Thank you for your feedback!');
+  document.getElementById('feedbackInput').value=''; // Clear textarea
+}
+
+/* ===== INITIALIZE ===== */
+renderProducts(); // Call function to display products on page
+</script>
+</body>
+</html>
